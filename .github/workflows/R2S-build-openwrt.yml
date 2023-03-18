@@ -67,6 +67,9 @@ jobs:
       with:
         ccache: 'true'
         prefix: ${{ github.workspace }}/openwrt
+        toolchain: 'true'
+        skip: 'true'
+        clean: 'false'
 
     - name: Load custom feeds
       run: |
@@ -100,7 +103,7 @@ jobs:
       id: package
       run: |
         cd openwrt
-        make defconfig
+        echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
